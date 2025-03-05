@@ -15,7 +15,7 @@ const LeftSidebar = () => {
       <div className="flex flex-col gap-10 pt-6">
         <header className="flex-start w-max gap-2 text-2xl font-bold text-primary-500">
           <DiAtom className="text-4xl" />
-          <h1>Vanni Looks</h1>
+          <h1>Mega City Cab</h1>
         </header>
 
         <div className="flex gap-2 flex-col">

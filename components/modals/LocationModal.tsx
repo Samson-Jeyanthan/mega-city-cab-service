@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { FaPlus } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
 import { LocationSchema } from "@/lib/validations/admin.validations";
+import { createLocationAction } from "@/lib/actions/location.action";
 
 interface Props {
   type: "edit" | "create";
@@ -37,8 +38,38 @@ const LocationModal = ({ type, districtDetails }: Props) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof LocationSchema>) {
+  async function onSubmit(values: z.infer<typeof LocationSchema>) {
     console.log(values);
+
+    let res = {
+      status: "",
+      message: "",
+    };
+
+    try {
+      if (type === "edit") {
+        // res = await editDistrictAction({
+        //   _id: parsedData?._id,
+        //   name: values.district.toLowerCase(),
+        //   path: pathname,
+        // });
+      }
+      res = await createLocationAction({
+        name: values.location.toLowerCase(),
+        path: pathname,
+      });
+
+      if (res.status === "200") {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsOpen(false);
+      form.reset();
+    }
   }
 
   return (

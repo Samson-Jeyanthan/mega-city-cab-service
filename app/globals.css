@@ -1,12 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: "Host Grotesk", sans-serif;
+}
 
+@layer utilities {
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+
+  .flex-between {
+    @apply flex justify-between items-center;
+  }
+
+  .flex-start {
+    @apply flex justify-start items-center;
+  }
+
+  .flex-end {
+    @apply flex justify-end items-center;
+  }
+
+  .no-focus {
+    @apply ring-0 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 outline-none !important;
+  }
+
+  .no-focus-blue {
+    @apply ring-0 focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 outline-none !important;
+  }
+}
 
 @layer base {
   :root {
-
     --background: 0 0% 100%;
 
     --foreground: 222.2 84% 4.9%;
@@ -55,10 +84,9 @@
 
     --chart-5: 27 87% 67%;
 
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
   .dark {
-
     --background: 222.2 84% 4.9%;
 
     --foreground: 210 40% 98%;
@@ -105,11 +133,9 @@
 
     --chart-4: 280 65% 60%;
 
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {
