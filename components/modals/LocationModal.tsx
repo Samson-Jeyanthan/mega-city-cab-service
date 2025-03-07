@@ -23,13 +23,13 @@ import { createLocationAction } from "@/lib/actions/location.action";
 
 interface Props {
   type: "edit" | "create";
-  districtDetails?: string;
+  locationDetails?: string;
 }
 
-const LocationModal = ({ type, districtDetails }: Props) => {
+const LocationModal = ({ type, locationDetails }: Props) => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const parsedData = districtDetails && JSON.parse(districtDetails);
+  const parsedData = locationDetails && JSON.parse(locationDetails);
 
   const form = useForm<z.infer<typeof LocationSchema>>({
     resolver: zodResolver(LocationSchema),

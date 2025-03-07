@@ -1,6 +1,11 @@
 export const LEFT_SIDEBAR_LINKS = [
   {
     // icon: HomeIcon,
+    name: "Car Managers",
+    route: "/admin/car-managers",
+  },
+  {
+    // icon: HomeIcon,
     name: "Drivers",
     route: "/admin/drivers",
   },
