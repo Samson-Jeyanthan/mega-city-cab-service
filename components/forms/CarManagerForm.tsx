@@ -18,17 +18,17 @@ const CarManagerForm = ({ type, managerDetails }: Props) => {
     const pathname = usePathname();
 
     const form = useForm<z.infer<typeof ManagerSchema>>({
-        resolver: zodResolver(ManagerSchema),
-        defaultValues: {
-            managerName: "",
-            nicNo: "",
-            phoneNo: "",
-            email: "",
-            carName: "",
-            carModel: "",
-            carNo: "",
-            carPhoto: [],
-        },
+      resolver: zodResolver(ManagerSchema),
+      defaultValues: {
+        managerName: "",
+        nicNo: "",
+        phoneNo: "",
+        email: "",
+        carMade: "",
+        carModel: "",
+        carNo: "",
+        carPhoto: [],
+      },
     });
     
       async function onSubmit(values: z.infer<typeof ManagerSchema>) {

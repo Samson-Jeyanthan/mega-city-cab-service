@@ -48,7 +48,7 @@ const LocationsPage = async () => {
               <TableCell className="flex-center gap-3">
                 <LocationModal
                   type="edit"
-                  districtDetails={JSON.stringify(data)}
+                  locationDetails={JSON.stringify(data)}
                 />
                 {/* <ConfirmDeleteModal
                   type="district"
