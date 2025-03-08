@@ -1,7 +1,11 @@
-import React from "react";
+import { SignupForm } from "@/components/forms";
 
 const SignupPage = () => {
-  return <div>SignupPage</div>;
+  return (
+    <section className="min-h-screen w-full flex-center">
+      <SignupForm />
+    </section>
+  );
 };
 
 export default SignupPage;
