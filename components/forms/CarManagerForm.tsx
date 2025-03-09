@@ -9,7 +9,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname } from "next/navigation";
 import { z } from "zod";
-import { createLocationAction } from "@/lib/actions/location.action";
 
 interface Props {
   type: "edit" | "create";
@@ -70,9 +69,29 @@ const CarManagerForm = ({ type, managerDetails }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 pt-4"
+        className="flex flex-col px-16 gap-4 pt-4"
       >
-        <FormInput form={form} inputName="location" formLabel="Location Name" />
+        <FormInput
+          form={form}
+          inputName="managerName"
+          formLabel="Location Name"
+        />
+
+        <FormInput form={form} inputName="nicNo" formLabel="NIC Number" />
+        <FormInput
+          form={form}
+          inputName="phoneNo"
+          formLabel="Phone Number Name"
+        />
+        <FormInput form={form} inputName="email" formLabel="Email" />
+
+        <FormInput form={form} inputName="carMade" formLabel="Car Made Name" />
+
+        <FormInput
+          form={form}
+          inputName="carModel"
+          formLabel="Car Model Name"
+        />
         <Button
           className="bg-primary-500 text-light-900 w-full"
           type="submit"

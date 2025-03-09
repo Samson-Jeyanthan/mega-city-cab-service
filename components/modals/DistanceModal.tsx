@@ -4,6 +4,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { DistanceSchema } from "@/lib/validations/admin.validations";
+import { createDistanceAction } from "@/lib/actions/distance.action";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -11,34 +15,32 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import { MdEdit } from "react-icons/md";
+import { FaPlus } from "react-icons/fa6";
 import { Form } from "../ui/form";
 import { FormInput } from "../inputs";
 import { Button } from "../ui/button";
-import { usePathname } from "next/navigation";
-import { toast } from "sonner";
-import { FaPlus } from "react-icons/fa6";
-import { MdEdit } from "react-icons/md";
-import { LocationSchema } from "@/lib/validations/admin.validations";
-import { createLocationAction } from "@/lib/actions/location.action";
 
 interface Props {
   type: "edit" | "create";
-  locationDetails?: string;
+  distanceDetails?: string;
 }
 
-const LocationModal = ({ type, locationDetails }: Props) => {
+const DistanceModal = ({ type, distanceDetails }: Props) => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const parsedData = locationDetails && JSON.parse(locationDetails);
+  const parsedData = distanceDetails && JSON.parse(distanceDetails);
 
-  const form = useForm<z.infer<typeof LocationSchema>>({
-    resolver: zodResolver(LocationSchema),
+  const form = useForm<z.infer<typeof DistanceSchema>>({
+    resolver: zodResolver(DistanceSchema),
     defaultValues: {
-      location: "",
+      from: "",
+      to: "",
+      distance: 0,
     },
   });
 
-  async function onSubmit(values: z.infer<typeof LocationSchema>) {
+  async function onSubmit(values: z.infer<typeof DistanceSchema>) {
     console.log(values);
 
     let res = {
@@ -54,8 +56,10 @@ const LocationModal = ({ type, locationDetails }: Props) => {
         //   path: pathname,
         // });
       } else {
-        res = await createLocationAction({
-          name: values.location.toLowerCase(),
+        res = await createDistanceAction({
+          from: values.from,
+          to: values.to,
+          distance: values.distance,
           path: pathname,
         });
       }
@@ -82,7 +86,7 @@ const LocationModal = ({ type, locationDetails }: Props) => {
       ) : (
         <DialogTrigger className="flex gap-2 items-center px-4 py-2.5 text-sm bg-primary-500 text-light-900 font-medium rounded-lg">
           <FaPlus />
-          Add Location
+          Add Distance
         </DialogTrigger>
       )}
 
@@ -96,10 +100,14 @@ const LocationModal = ({ type, locationDetails }: Props) => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="flex flex-col gap-4 pt-4"
             >
+              <FormInput form={form} inputName="from" formLabel="From" />
+
+              <FormInput form={form} inputName="to" formLabel="To" />
               <FormInput
                 form={form}
-                inputName="location"
-                formLabel="Location Name"
+                inputName="distance"
+                formLabel="Distance"
+                inputType="number"
               />
               <Button
                 className="bg-primary-500 text-light-900 w-full"
@@ -122,4 +130,4 @@ const LocationModal = ({ type, locationDetails }: Props) => {
   );
 };
 
-export default LocationModal;
+export default DistanceModal;

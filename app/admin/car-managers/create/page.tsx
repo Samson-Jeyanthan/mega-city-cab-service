@@ -1,8 +1,13 @@
+import { CarManagerForm } from "@/components/forms";
 
 const CreateCarManager = () => {
   return (
-    <div>CreateCarManager</div>
-  )
-}
+    <section className="w-full flex-col flex gap-8">
+      <h1 className="text-3xl font-bold">Create Car Manager</h1>
 
-export default CreateCarManager
+      <CarManagerForm type="create" />
+    </section>
+  );
+};
+
+export default CreateCarManager;

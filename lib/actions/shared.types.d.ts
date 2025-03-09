@@ -4,6 +4,14 @@ export type TLocationParams = {
   path: string;
 };
 
+export type TDistanceParams = {
+  _id?: string;
+  from: string;
+  to: string;
+  distance: number;
+  path: string;
+};
+
 export type TManagerParams = {
   _id?: string;
   managerName: string;

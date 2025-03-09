@@ -18,7 +18,7 @@ const DriversPage = async () => {
   const results = await getAllDriversAction();
 
   return (
-    <section>
+    <section className="w-full flex-col flex gap-8">
       <h1 className="text-3xl font-bold">Drivers</h1>
 
       <div className="flex justify-between w-full gap-20">

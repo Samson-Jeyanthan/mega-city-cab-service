@@ -1,4 +1,3 @@
-import { LocationModal } from "@/components/modals";
 import { LocalSearchbar } from "@/components/shared";
 import {
   Table,
@@ -10,6 +9,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getConvertedDate } from "@/lib/utils";
+import Link from "next/link";
+import { FaPlus } from "react-icons/fa6";
 
 const CarManagersPage = async () => {
   return (
@@ -21,7 +22,13 @@ const CarManagersPage = async () => {
           placeholder="Search by manager name"
           iconPosition="left"
         />
-        <LocationModal type="create" />
+        <Link
+          href="/admin/car-managers/create"
+          className="flex gap-2 items-center px-4 py-2.5 text-sm bg-primary-500 text-light-900 font-medium rounded-lg"
+        >
+          <FaPlus />
+          Add Manager
+        </Link>
       </div>
 
       <Table>
