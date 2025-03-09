@@ -1,4 +1,4 @@
-import { LocationModal } from "@/components/modals";
+import { DeleteConfirmModal, LocationModal } from "@/components/modals";
 import { LocalSearchbar } from "@/components/shared";
 import {
   Table,
@@ -50,10 +50,10 @@ const LocationsPage = async () => {
                   type="edit"
                   locationDetails={JSON.stringify(data)}
                 />
-                {/* <ConfirmDeleteModal
-                  type="district"
+                <DeleteConfirmModal
+                  type="location"
                   itemId={JSON.stringify(data._id)}
-                /> */}
+                />
               </TableCell>
             </TableRow>
           ))}

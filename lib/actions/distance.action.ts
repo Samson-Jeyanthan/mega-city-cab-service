@@ -3,7 +3,8 @@
 import Distance from "@/database/distance.model";
 import { connectToDatabase } from "../mongoose";
 import { revalidatePath } from "next/cache";
-import { TDistanceParams } from "./shared.types";
+import { TDeleteParams, TDistanceParams } from "./shared.types";
+import Location from "@/database/location.model";
 
 export async function createDistanceAction(params: TDistanceParams) {
   try {
@@ -36,8 +37,13 @@ export async function getAllDistancesAction() {
   try {
     connectToDatabase();
 
-    const distances = await Distance.find().sort({ createdAt: -1 });
+    const distances = await Distance.find().sort({ createdAt: -1 }).populate({
+      path: "from to",
+      model: Location,
+      select: "_id name",
+    });
 
+    console.log(distances);
     return {
       status: "200",
       data: distances,
@@ -47,6 +53,28 @@ export async function getAllDistancesAction() {
     return {
       status: "500",
       message: "Error fetching distance details",
+    };
+  }
+}
+
+export async function deleteDistanceAction(params: TDeleteParams) {
+  try {
+    connectToDatabase();
+
+    const { _id, path } = params;
+
+    await Distance.deleteOne({ _id });
+
+    revalidatePath(path);
+
+    return {
+      status: "200",
+      message: "Distance deleted successfully",
+    };
+  } catch (error) {
+    return {
+      status: "500",
+      message: "Error deleting distance",
     };
   }
 }

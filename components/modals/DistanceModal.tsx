@@ -20,16 +20,26 @@ import { FaPlus } from "react-icons/fa6";
 import { Form } from "../ui/form";
 import { FormInput } from "../inputs";
 import { Button } from "../ui/button";
+import Dropdown from "../inputs/Dropdown";
 
 interface Props {
   type: "edit" | "create";
   distanceDetails?: string;
+  locations: string;
 }
 
-const DistanceModal = ({ type, distanceDetails }: Props) => {
+const DistanceModal = ({ type, distanceDetails, locations }: Props) => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const parsedData = distanceDetails && JSON.parse(distanceDetails);
+  const parsedDistanceDetails =
+    distanceDetails && JSON.parse(distanceDetails || "");
+
+  const LOCATIONS_OPTIONS =
+    locations &&
+    JSON.parse(locations)?.map((location: any) => ({
+      _id: location._id,
+      name: location.name,
+    }));
 
   const form = useForm<z.infer<typeof DistanceSchema>>({
     resolver: zodResolver(DistanceSchema),
@@ -100,15 +110,29 @@ const DistanceModal = ({ type, distanceDetails }: Props) => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="flex flex-col gap-4 pt-4"
             >
-              <FormInput form={form} inputName="from" formLabel="From" />
+              <Dropdown
+                form={form}
+                inputName="from"
+                formLabel="From"
+                options={LOCATIONS_OPTIONS}
+                prevValue={parsedDistanceDetails?.from}
+              />
 
-              <FormInput form={form} inputName="to" formLabel="To" />
+              <Dropdown
+                form={form}
+                inputName="to"
+                formLabel="To"
+                options={LOCATIONS_OPTIONS}
+                prevValue={parsedDistanceDetails?.to}
+              />
+
               <FormInput
                 form={form}
                 inputName="distance"
                 formLabel="Distance"
                 inputType="number"
               />
+
               <Button
                 className="bg-primary-500 text-light-900 w-full"
                 type="submit"

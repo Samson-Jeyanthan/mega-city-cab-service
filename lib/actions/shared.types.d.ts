@@ -35,3 +35,8 @@ export type TDriverParams = {
   driverPhoto: string;
   path: string;
 };
+
+export type TDeleteParams = {
+  _id: string;
+  path: string;
+};

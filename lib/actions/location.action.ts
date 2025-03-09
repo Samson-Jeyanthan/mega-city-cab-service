@@ -3,7 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose";
 import Location from "@/database/location.model";
-import { TLocationParams } from "./shared.types";
+import { TDeleteParams, TLocationParams } from "./shared.types";
+import Distance from "@/database/distance.model";
 
 export async function createLocationAction(params: TLocationParams) {
   try {
@@ -43,6 +44,49 @@ export async function getAllLocationsAction() {
     return {
       status: "500",
       message: "Error fetching locations",
+    };
+  }
+}
+
+export async function editLocationAction(params: TLocationParams) {
+  const { _id, name, path } = params;
+
+  await Location.findByIdAndUpdate(_id, { name });
+
+  revalidatePath(path);
+  try {
+    connectToDatabase();
+    return {
+      status: "200",
+      message: "Location updated successfully",
+    };
+  } catch (error) {
+    return {
+      status: "500",
+      message: "Error fetching location",
+    };
+  }
+}
+
+export async function deleteLocationAction(params: TDeleteParams) {
+  try {
+    connectToDatabase();
+
+    const { _id, path } = params;
+
+    await Location.deleteOne({ _id });
+    await Distance.deleteMany({ from: _id, to: _id });
+
+    revalidatePath(path);
+
+    return {
+      status: "200",
+      message: "Location deleted successfully",
+    };
+  } catch (error) {
+    return {
+      status: "500",
+      message: "Error deleting Location",
     };
   }
 }
