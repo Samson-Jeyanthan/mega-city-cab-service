@@ -14,9 +14,9 @@ export interface IManager extends Document {
 
 const ManagerSchema = new Schema({
   managerName: { type: String },
-  nicNo: { type: String, unique: true },
-  phoneNo: { type: String, unique: true },
-  email: { type: String, unique: true },
+  nicNo: { type: String },
+  phoneNo: { type: String },
+  email: { type: String },
   carMade: { type: String },
   carModel: { type: String },
   carNo: { type: String },

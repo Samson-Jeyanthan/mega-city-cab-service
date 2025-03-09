@@ -102,7 +102,7 @@ const DistanceModal = ({ type, distanceDetails, locations }: Props) => {
       <DialogContent aria-describedby={undefined} className="bg-light-900">
         <DialogHeader>
           <DialogTitle>
-            {type === "edit" ? "Edit" : "Create"} Location
+            {type === "edit" ? "Edit" : "Create"} Distance
           </DialogTitle>
           <Form {...form}>
             <form

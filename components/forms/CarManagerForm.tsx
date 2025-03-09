@@ -7,8 +7,10 @@ import { ManagerSchema } from "@/lib/validations/admin.validations";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { z } from "zod";
+import { createManagerAction } from "@/lib/actions/manager.action";
+import { getSignedURL } from "@/lib/actions/utils.action";
 
 interface Props {
   type: "edit" | "create";
@@ -17,6 +19,7 @@ interface Props {
 
 const CarManagerForm = ({ type, managerDetails }: Props) => {
   const pathname = usePathname();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof ManagerSchema>>({
     resolver: zodResolver(ManagerSchema),
@@ -34,6 +37,7 @@ const CarManagerForm = ({ type, managerDetails }: Props) => {
 
   async function onSubmit(values: z.infer<typeof ManagerSchema>) {
     console.log(values);
+    let carImageURL = "";
 
     let res = {
       status: "",
@@ -47,16 +51,51 @@ const CarManagerForm = ({ type, managerDetails }: Props) => {
         //   name: values.district.toLowerCase(),
         //   path: pathname,
         // });
-      }
-      // res = await createLocationAction({
-      //   name: values.location.toLowerCase(),
-      //   path: pathname,
-      // });
-
-      if (res.status === "200") {
-        toast.success(res.message);
       } else {
-        toast.error(res.message);
+        if (values.carPhoto && values.carPhoto.length > 0) {
+          const signedURLResult = await getSignedURL({
+            fileType: "image/jpeg",
+          });
+          console.log(signedURLResult);
+
+          if (signedURLResult.failure !== undefined) {
+            console.log(signedURLResult.failure);
+            return;
+          }
+
+          const url = signedURLResult.success;
+
+          const res = await fetch(url, {
+            method: "PUT",
+            body: values.carPhoto[0],
+            headers: {
+              "Content-Type": "image/jpeg",
+            },
+          });
+
+          if (res.ok) {
+            carImageURL = url.split("?")[0];
+          }
+        }
+
+        res = await createManagerAction({
+          managerName: values.managerName,
+          nicNo: values.nicNo,
+          phoneNo: values.phoneNo,
+          email: values.email,
+          carMade: values.carMade,
+          carModel: values.carModel,
+          carNo: values.carNo,
+          carPhoto: carImageURL,
+          path: pathname,
+        });
+
+        if (res.status === "200") {
+          toast.success(res.message);
+          router.push("/admin/car-managers");
+        } else {
+          toast.error(res.message);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -92,6 +131,7 @@ const CarManagerForm = ({ type, managerDetails }: Props) => {
         <FormInput form={form} inputName="email" formLabel="Email" />
 
         <FormInput form={form} inputName="carMade" formLabel="Car Made Name" />
+        <FormInput form={form} inputName="carNo" formLabel="Car Number Plate" />
 
         <FormInput
           form={form}

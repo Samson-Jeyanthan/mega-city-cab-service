@@ -13,7 +13,7 @@ export const DistanceSchema = z.object({
 export const ManagerSchema = z.object({
   managerName: z.string().min(3),
   nicNo: z.string().min(7),
-  phoneNo: z.string().min(10),
+  phoneNo: z.string().min(10).max(10),
   email: z.string().optional(),
   carMade: z.string().min(3),
   carModel: z.string().min(1),

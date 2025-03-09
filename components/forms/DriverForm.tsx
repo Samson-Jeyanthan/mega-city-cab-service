@@ -1,7 +1,7 @@
 "use client";
 
-import { Form } from "../ui/form";
-import { FormInput } from "../inputs";
+import { Form, FormField } from "../ui/form";
+import { DriverPhotoInput, FormInput } from "../inputs";
 import { Button } from "../ui/button";
 import { DriverSchema } from "@/lib/validations/admin.validations";
 import { toast } from "sonner";
@@ -9,7 +9,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname } from "next/navigation";
 import { z } from "zod";
-import { createLocationAction } from "@/lib/actions/location.action";
 
 interface Props {
   type: "edit" | "create";
@@ -46,12 +45,12 @@ const DriverForm = ({ type, driverDetails }: Props) => {
         //   name: values.district.toLowerCase(),
         //   path: pathname,
         // });
+      } else {
+        // res = await createLocationAction({
+        //   name: values.driverName.toLowerCase(),
+        //   path: pathname,
+        // });
       }
-      // res = await createLocationAction({
-      //   name: values.driverName.toLowerCase(),
-      //   path: pathname,
-      // });
-
       if (res.status === "200") {
         toast.success(res.message);
       } else {
@@ -70,13 +69,28 @@ const DriverForm = ({ type, driverDetails }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-4"
       >
-        <FormInput form={form} inputName="driverName" formLabel="Driver Name" />
-        <FormInput form={form} inputName="nicNo" formLabel="NIC Number" />
-        <FormInput
-          form={form}
-          inputName="phoneNo"
-          formLabel="Phone Number Name"
-        />
+        <div className="flex gap-10 items-start w-full">
+          <FormField
+            control={form.control}
+            name="driverPhoto"
+            render={({ field }) => (
+              <DriverPhotoInput
+                fieldChange={field.onChange}
+                defaultPic="/user-single.png"
+              />
+            )}
+          />
+
+          <div className="flex flex-col gap-4 w-full">
+            <FormInput
+              form={form}
+              inputName="driverName"
+              formLabel="Driver Name"
+            />
+            <FormInput form={form} inputName="nicNo" formLabel="NIC Number" />
+          </div>
+        </div>
+        <FormInput form={form} inputName="phoneNo" formLabel="Phone Number" />
         <FormInput form={form} inputName="email" formLabel="Email" />
         <FormInput form={form} inputName="address" formLabel="Address" />
         <Button
