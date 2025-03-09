@@ -8,8 +8,8 @@ export interface IDistance extends Document {
 }
 
 const DistanceSchema = new Schema({
-  from: { type: String },
-  to: { type: String },
+  from: { type: Schema.Types.ObjectId, ref: "Location" },
+  to: { type: Schema.Types.ObjectId, ref: "Location" },
   distance: { type: Number },
   createdAt: { type: Date, default: Date.now },
 });

@@ -16,3 +16,14 @@ export type TManagerParams = {
   carPhoto: string;
   path: string;
 };
+
+export type TDriverParams = {
+  _id?: string;
+  driverName: string;
+  nicNo: string;
+  phoneNo: string;
+  email: string;
+  address: string;
+  driverPhoto: string;
+  path: string;
+};

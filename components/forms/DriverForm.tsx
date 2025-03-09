@@ -3,7 +3,7 @@
 import { Form } from "../ui/form";
 import { FormInput } from "../inputs";
 import { Button } from "../ui/button";
-import { ManagerSchema } from "@/lib/validations/admin.validations";
+import { DriverSchema } from "@/lib/validations/admin.validations";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,27 +13,25 @@ import { createLocationAction } from "@/lib/actions/location.action";
 
 interface Props {
   type: "edit" | "create";
-  managerDetails?: string;
+  driverDetails?: string;
 }
 
-const CarManagerForm = ({ type, managerDetails }: Props) => {
+const DriverForm = ({ type, driverDetails }: Props) => {
   const pathname = usePathname();
 
-  const form = useForm<z.infer<typeof ManagerSchema>>({
-    resolver: zodResolver(ManagerSchema),
+  const form = useForm<z.infer<typeof DriverSchema>>({
+    resolver: zodResolver(DriverSchema),
     defaultValues: {
-      managerName: "",
+      driverName: "",
       nicNo: "",
       phoneNo: "",
       email: "",
-      carMade: "",
-      carModel: "",
-      carNo: "",
-      carPhoto: [],
+      address: "",
+      driverPhoto: [],
     },
   });
 
-  async function onSubmit(values: z.infer<typeof ManagerSchema>) {
+  async function onSubmit(values: z.infer<typeof DriverSchema>) {
     console.log(values);
 
     let res = {
@@ -50,7 +48,7 @@ const CarManagerForm = ({ type, managerDetails }: Props) => {
         // });
       }
       // res = await createLocationAction({
-      //   name: values.location.toLowerCase(),
+      //   name: values.driverName.toLowerCase(),
       //   path: pathname,
       // });
 
@@ -70,9 +68,17 @@ const CarManagerForm = ({ type, managerDetails }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 pt-4"
+        className="flex flex-col gap-4"
       >
-        <FormInput form={form} inputName="location" formLabel="Location Name" />
+        <FormInput form={form} inputName="driverName" formLabel="Driver Name" />
+        <FormInput form={form} inputName="nicNo" formLabel="NIC Number" />
+        <FormInput
+          form={form}
+          inputName="phoneNo"
+          formLabel="Phone Number Name"
+        />
+        <FormInput form={form} inputName="email" formLabel="Email" />
+        <FormInput form={form} inputName="address" formLabel="Address" />
         <Button
           className="bg-primary-500 text-light-900 w-full"
           type="submit"
@@ -91,4 +97,4 @@ const CarManagerForm = ({ type, managerDetails }: Props) => {
   );
 };
 
-export default CarManagerForm;
+export default DriverForm;
