@@ -18,9 +18,8 @@ import {
 import { MdEdit } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import { Form } from "../ui/form";
-import { FormInput } from "../inputs";
+import { FormInput, Dropdown } from "../inputs";
 import { Button } from "../ui/button";
-import Dropdown from "../inputs/Dropdown";
 
 interface Props {
   type: "edit" | "create";

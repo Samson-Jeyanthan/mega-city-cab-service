@@ -63,7 +63,7 @@ export async function editLocationAction(params: TLocationParams) {
   } catch (error) {
     return {
       status: "500",
-      message: "Error fetching location",
+      message: "Error editing location",
     };
   }
 }

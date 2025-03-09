@@ -1,7 +1,7 @@
 "use client";
 
-import { Form } from "../ui/form";
-import { FormInput } from "../inputs";
+import { Form, FormField } from "../ui/form";
+import { FormInput, PhotoInput } from "../inputs";
 import { Button } from "../ui/button";
 import { ManagerSchema } from "@/lib/validations/admin.validations";
 import { toast } from "sonner";
@@ -71,10 +71,16 @@ const CarManagerForm = ({ type, managerDetails }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col px-16 gap-4 pt-4"
       >
+        <FormField
+          control={form.control}
+          name="carPhoto"
+          render={({ field }) => <PhotoInput fieldChange={field.onChange} />}
+        />
+
         <FormInput
           form={form}
           inputName="managerName"
-          formLabel="Location Name"
+          formLabel="Manager Name"
         />
 
         <FormInput form={form} inputName="nicNo" formLabel="NIC Number" />
