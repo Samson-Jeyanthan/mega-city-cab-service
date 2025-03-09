@@ -45,20 +45,21 @@ const PhotoInput = ({ fieldChange, mediaUrl }: Props) => {
           onChange={handleInputChange}
           accept="image/jpeg,image/jpg,image/png,image/webp"
         />
-        {media.preview && (
-          <Image
-            src={media.preview}
-            alt="car_photo"
-            width={1024}
-            height={1024}
-            className="w-full h-96 rounded-2xl object-contain bg-black"
-          />
-        )}
+        {media.preview ||
+          (mediaUrl && (
+            <Image
+              src={media.preview || mediaUrl}
+              alt="car_photo"
+              width={1024}
+              height={1024}
+              className="w-full h-96 rounded-2xl object-contain bg-black"
+            />
+          ))}
         <div
           className="absolute flex items-center gap-2 px-3 bottom-3 right-3 cursor-pointer rounded-lg bg-light-100 fill-white py-3 text-white text-sm"
           onClick={handleInputBtn}
         >
-          {media.preview ? (
+          {media.preview || mediaUrl ? (
             <>
               <MdEdit fill="white text-3xl" />
               Edit Car Photo

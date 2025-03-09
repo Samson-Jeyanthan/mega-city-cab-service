@@ -127,3 +127,18 @@ export async function deleteManagerAction(params: TDeleteParams) {
     };
   }
 }
+
+export async function getManagerByIdAction(params: { _id: string }) {
+  try {
+    connectToDatabase();
+
+    const { _id } = params;
+
+    const question = await Manager.findById(_id);
+
+    return question;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}

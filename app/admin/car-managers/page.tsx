@@ -72,7 +72,7 @@ const CarManagersPage = async () => {
 
               <TableCell>{getConvertedDate(data.createdAt)}</TableCell>
               <TableCell className="flex-center h-28 gap-4">
-                <Link href={`/admin/car-managers/${data._id}`}>
+                <Link href={`/admin/car-managers/edit/${data._id}`}>
                   <MdEdit className="text-lg" />
                 </Link>
                 <DeleteConfirmModal

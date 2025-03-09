@@ -20,17 +20,18 @@ interface Props {
 const CarManagerForm = ({ type, managerDetails }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
+  const parsedData = managerDetails && JSON.parse(managerDetails);
 
   const form = useForm<z.infer<typeof ManagerSchema>>({
     resolver: zodResolver(ManagerSchema),
     defaultValues: {
-      managerName: "",
-      nicNo: "",
-      phoneNo: "",
-      email: "",
-      carMade: "",
-      carModel: "",
-      carNo: "",
+      managerName: parsedData?.managerName || "",
+      nicNo: parsedData?.nicNo || "",
+      phoneNo: parsedData?.phoneNo || "",
+      email: parsedData?.email || "",
+      carMade: parsedData?.carMade || "",
+      carModel: parsedData?.carModel || "",
+      carNo: parsedData?.carNo || "",
       carPhoto: [],
     },
   });
@@ -113,7 +114,12 @@ const CarManagerForm = ({ type, managerDetails }: Props) => {
         <FormField
           control={form.control}
           name="carPhoto"
-          render={({ field }) => <PhotoInput fieldChange={field.onChange} />}
+          render={({ field }) => (
+            <PhotoInput
+              fieldChange={field.onChange}
+              mediaUrl={parsedData?.carPhoto}
+            />
+          )}
         />
 
         <FormInput

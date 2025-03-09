@@ -3,3 +3,7 @@ export type TConvertedSvgJsxProps = {
   width?: string;
   fill?: string;
 };
+
+export interface IParamsProps {
+  params: { id: string };
+}

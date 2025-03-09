@@ -34,7 +34,7 @@ const LocationModal = ({ type, locationDetails }: Props) => {
   const form = useForm<z.infer<typeof LocationSchema>>({
     resolver: zodResolver(LocationSchema),
     defaultValues: {
-      location: "",
+      location: parsedData?.name || "",
     },
   });
 
