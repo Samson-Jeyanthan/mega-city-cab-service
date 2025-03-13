@@ -9,7 +9,7 @@ export async function customerRegisterAction(params: any) {
   try {
     connectToDatabase();
 
-    const { name, email, password, nicNo, phoneNo, address, path } = params;
+    const { name, email, password, nicNo, phoneNo, address } = params;
 
     await Customer.create({
       customerName: name,
@@ -19,8 +19,6 @@ export async function customerRegisterAction(params: any) {
       phoneNo,
       address,
     });
-
-    revalidatePath(path);
 
     return {
       status: "200",

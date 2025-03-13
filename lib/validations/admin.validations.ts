@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { date, z } from "zod";
 
 export const LocationSchema = z.object({
   location: z.string().min(3).max(130),
@@ -48,3 +48,11 @@ export const SignupSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
   });
+
+export const BookingSchema = z.object({
+  from: z.string().min(1),
+  to: z.string().min(1),
+  date: z.date().optional(),
+  time: z.string().min(1),
+  pickupLocation: z.string().min(1),
+});

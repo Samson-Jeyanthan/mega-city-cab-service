@@ -4,14 +4,16 @@ import { SignupSchema } from "@/lib/validations/admin.validations";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { z } from "zod";
 import { Form } from "../ui/form";
 import { FormInput } from "../inputs";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { customerRegisterAction } from "@/lib/actions/auth.action";
 
 const SignupForm = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof SignupSchema>>({
     resolver: zodResolver(SignupSchema),
     defaultValues: {
@@ -27,6 +29,23 @@ const SignupForm = () => {
 
   async function onSubmit(values: z.infer<typeof SignupSchema>) {
     console.log(values);
+
+    let res = {
+      status: "",
+      message: "",
+    };
+
+    try {
+      const res = await customerRegisterAction(values);
+      if (res.status === "200") {
+        toast.success(res.message);
+        router.push("/booking");
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
