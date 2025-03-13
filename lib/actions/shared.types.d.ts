@@ -40,3 +40,14 @@ export type TDeleteParams = {
   _id: string;
   path: string;
 };
+
+export type TCustomerParams = {
+  _id?: string;
+  customerName: string;
+  nicNo: string;
+  phoneNo: string;
+  email?: string;
+  password?: string;
+  address: string;
+  path: string;
+};

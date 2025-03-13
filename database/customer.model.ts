@@ -1,19 +1,21 @@
 import { Schema, model, models } from "mongoose";
 
 export interface ICustomer extends Document {
-  name: string;
+  customerName: string;
   nicNo: string;
   phoneNo: string;
   email: string;
+  password: string;
   address: string;
   createdAt: Date;
 }
 
 const CustomerSchema = new Schema({
-  name: { type: String },
+  customerName: { type: String },
   nicNo: { type: String, unique: true },
-  phoneNo: { type: String, unique: true },
+  phoneNo: { type: String },
   email: { type: String, unique: true },
+  password: { type: String },
   address: { type: String },
   createdAt: { type: Date, default: Date.now },
 });

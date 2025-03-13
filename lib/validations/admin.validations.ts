@@ -34,3 +34,17 @@ export const LoginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
 });
+
+export const SignupSchema = z
+  .object({
+    name: z.string().min(3),
+    nicNo: z.string().min(7),
+    phoneNo: z.string().min(10).max(10),
+    address: z.string().optional(),
+    email: z.string().email().min(3),
+    password: z.string().min(8),
+    confirmPassword: z.string().min(8),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+  });
