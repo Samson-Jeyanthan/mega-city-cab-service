@@ -52,7 +52,8 @@ export const SignupSchema = z
 export const BookingSchema = z.object({
   from: z.string().min(1),
   to: z.string().min(1),
-  date: z.date().optional(),
-  time: z.string().min(1),
+  date: z.string().date(),
+  hrsTime: z.string().min(1),
+  minTime: z.string().min(1),
   pickupLocation: z.string().min(1),
 });

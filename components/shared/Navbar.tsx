@@ -9,8 +9,9 @@ const Navbar = () => {
         <h1>Mega City Cab</h1>
       </div>
 
-      <div className="text-light-900 font-medium flex gap-4">
+      <div className="text-light-900 font-medium flex gap-8">
         <Link href="/profile">Profile</Link>
+        <Link href="/bookings">My Bookings</Link>
         <p>Logout</p>
       </div>
     </nav>

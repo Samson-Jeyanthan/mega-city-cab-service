@@ -9,6 +9,7 @@ import { Form } from "../ui/form";
 import { Dropdown, FormInput } from "../inputs";
 import { Button } from "../ui/button";
 import { BookingSchema } from "@/lib/validations/admin.validations";
+import { HOURS_OPTIONS, MINUTES_OPTIONS } from "@/constants";
 
 interface Props {
   locations: string;
@@ -30,8 +31,9 @@ const BookingForm = ({ locations }: Props) => {
     defaultValues: {
       from: "",
       to: "",
-      date: new Date(),
-      time: "",
+      date: "",
+      hrsTime: "",
+      minTime: "",
       pickupLocation: "",
     },
   });
@@ -42,9 +44,10 @@ const BookingForm = ({ locations }: Props) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex gap-4 w-full"
+        className="flex flex-col gap-4 w-full items-center mt-6"
       >
-        <div>
+        <h2 className="text-center font-bold text-2xl">Search for Cabs</h2>
+        <div className="flex gap-6 max-w-7xl w-full">
           <Dropdown
             form={form}
             inputName="from"
@@ -57,8 +60,25 @@ const BookingForm = ({ locations }: Props) => {
             formLabel="To"
             options={LOCATIONS_OPTIONS}
           />
+          <FormInput
+            form={form}
+            inputName="pickupLocation"
+            formLabel="Pickup Location / Address"
+          />
         </div>
-        <div>
+        <div className="flex gap-6 max-w-7xl w-full items-start">
+          <Dropdown
+            form={form}
+            inputName="hrsTime"
+            formLabel="Pickup Time - Hrs"
+            options={HOURS_OPTIONS}
+          />
+          <Dropdown
+            form={form}
+            inputName="minTime"
+            formLabel="Pickup Time - Min"
+            options={MINUTES_OPTIONS}
+          />
           <FormInput
             form={form}
             inputName="date"
@@ -66,11 +86,14 @@ const BookingForm = ({ locations }: Props) => {
             inputType="date"
           />
         </div>
-        <FormInput
-          form={form}
-          inputName="pickupLocation"
-          formLabel="Pickup Location / Address"
-        />
+
+        <Button
+          className="bg-primary-500 text-light-900 w-[36rem] mt-8"
+          type="submit"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? "Loading..." : "Search"}
+        </Button>
       </form>
     </Form>
   );

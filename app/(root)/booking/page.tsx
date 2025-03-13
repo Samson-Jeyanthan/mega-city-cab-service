@@ -5,7 +5,7 @@ import Image from "next/image";
 const BookingPage = async () => {
   const locations = await getAllLocationsAction();
   return (
-    <section className="w-full">
+    <section className="w-full flex items-center flex-col pb-20">
       <Image
         src={"/bg-2.jpg"}
         width={2000}
