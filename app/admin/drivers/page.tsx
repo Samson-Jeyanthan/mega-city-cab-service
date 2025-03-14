@@ -58,18 +58,18 @@ const DriversPage = async () => {
               <TableCell>{index + 1}</TableCell>
               <TableCell>
                 <Image
-                  src={data.driverPhoto}
+                  src={data.driverPhoto || "/user-single-black.png"}
                   alt={data.driverName}
                   width={50}
                   height={50}
-                  className="rounded-full object-cover size-11"
+                  className="rounded-full object-cover size-12 bg-light-500"
                 />
               </TableCell>
               <TableCell className="capitalize">{data.driverName}</TableCell>
               <TableCell>{data.phoneNo}</TableCell>
               <TableCell>{data.email}</TableCell>
               <TableCell>{getConvertedDate(data.createdAt)}</TableCell>
-              <TableCell className="flex-center gap-3">
+              <TableCell className="flex-center h-24 gap-3">
                 <Link href={`/admin/drivers/edit/${data._id}`}>
                   <MdEdit className="text-lg" />
                 </Link>
