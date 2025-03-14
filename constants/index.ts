@@ -30,12 +30,3 @@ export const LEFT_SIDEBAR_LINKS = [
     route: "/admin/distances",
   },
 ];
-export const HOURS_OPTIONS = Array.from({ length: 24 }, (_, i) => ({
-  _id: (i + 1).toString(),
-  name: i + 1,
-}));
-
-export const MINUTES_OPTIONS = Array.from({ length: 60 }, (_, i) => ({
-  _id: (i + 1).toString(),
-  name: i + 1,
-}));
