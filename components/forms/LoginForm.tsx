@@ -7,7 +7,6 @@ import { z } from "zod";
 import { LoginSchema } from "@/lib/validations/admin.validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormInput } from "../inputs";
-import Link from "next/link";
 
 const LoginForm = () => {
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -26,7 +25,7 @@ const LoginForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 w-full"
+        className="flex flex-col gap-4"
       >
         <FormInput form={form} inputName="email" formLabel="Email" />
         <FormInput
@@ -35,25 +34,13 @@ const LoginForm = () => {
           formLabel="Password"
           inputType="password"
         />
-        <footer className="w-full flex flex-col items-center">
-          <p className="text-sm text-light-300 mb-10">
-            Don't have an account?{" "}
-            <Link
-              href="/signup"
-              className="text-primary-500 hover:underline cursor-pointer"
-            >
-              Signup
-            </Link>
-          </p>
-
-          <Button
-            className="bg-primary-500 text-light-900 w-full"
-            type="submit"
-            disabled={form.formState.isSubmitting}
-          >
-            {form.formState.isSubmitting ? "Logging in..." : "Login"}
-          </Button>
-        </footer>
+        <Button
+          className="bg-primary-500 text-light-900 w-full"
+          type="submit"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? "Logging in..." : "Login"}
+        </Button>
       </form>
     </Form>
   );
