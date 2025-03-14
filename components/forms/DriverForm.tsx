@@ -7,10 +7,12 @@ import { DriverSchema } from "@/lib/validations/admin.validations";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { z } from "zod";
 import { useState } from "react";
 import Image from "next/image";
+import { getSignedURL } from "@/lib/actions/utils.action";
+import { createDriverAction } from "@/lib/actions/driver.action";
 
 interface Props {
   type: "edit" | "create";
@@ -20,9 +22,10 @@ interface Props {
 
 const DriverForm = ({ type, driverDetails, carDetails }: Props) => {
   const pathname = usePathname();
+  const router = useRouter();
   const parsedData = driverDetails ? JSON.parse(driverDetails) : null;
   const parsedCarDetails = carDetails ? JSON.parse(carDetails) : null;
-  const [selectedCars, setSelectedCars] = useState([]);
+  const [selectedCars, setSelectedCars] = useState<any[]>([]);
 
   const form = useForm<z.infer<typeof DriverSchema>>({
     resolver: zodResolver(DriverSchema),
@@ -38,7 +41,7 @@ const DriverForm = ({ type, driverDetails, carDetails }: Props) => {
 
   async function onSubmit(values: z.infer<typeof DriverSchema>) {
     console.log(values);
-
+    let driverImgURL = "";
     let res = {
       status: "",
       message: "",
@@ -52,15 +55,49 @@ const DriverForm = ({ type, driverDetails, carDetails }: Props) => {
         //   path: pathname,
         // });
       } else {
-        // res = await createLocationAction({
-        //   name: values.driverName.toLowerCase(),
-        //   path: pathname,
-        // });
-      }
-      if (res.status === "200") {
-        toast.success(res.message);
-      } else {
-        toast.error(res.message);
+        if (values.driverPhoto && values.driverPhoto.length > 0) {
+          const signedURLResult = await getSignedURL({
+            fileType: "image/jpeg",
+          });
+          console.log(signedURLResult);
+
+          if (signedURLResult.failure !== undefined) {
+            console.log(signedURLResult.failure);
+            return;
+          }
+
+          const url = signedURLResult.success;
+
+          const res = await fetch(url, {
+            method: "PUT",
+            body: values.driverPhoto[0],
+            headers: {
+              "Content-Type": "image/jpeg",
+            },
+          });
+
+          if (res.ok) {
+            driverImgURL = url.split("?")[0];
+          }
+        }
+
+        res = await createDriverAction({
+          driverName: values.driverName,
+          nicNo: values.nicNo,
+          phoneNo: values.phoneNo,
+          email: values.email || "",
+          address: values.address,
+          driverPhoto: driverImgURL,
+          assignedCars: selectedCars,
+          path: pathname,
+        });
+
+        if (res.status === "200") {
+          toast.success(res.message);
+          router.push("/admin/drivers");
+        } else {
+          toast.error(res.message);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -106,7 +143,18 @@ const DriverForm = ({ type, driverDetails, carDetails }: Props) => {
           {parsedCarDetails?.map((car: any, index: number) => (
             <div
               key={index}
-              className="p-4 rounded-lg border flex gap-4 w-[22rem]"
+              className={`${
+                selectedCars.includes(car._id) && "border-2 border-primary-500"
+              } cursor-pointer p-4 rounded-lg border flex gap-4 w-[22rem]`}
+              onClick={() => {
+                if (selectedCars.includes(car._id)) {
+                  setSelectedCars((prev) =>
+                    prev.filter((id) => id !== car._id)
+                  );
+                } else {
+                  setSelectedCars((prev) => [...prev, car._id]);
+                }
+              }}
             >
               <Image
                 src={car.carPhoto || "/car.png"}

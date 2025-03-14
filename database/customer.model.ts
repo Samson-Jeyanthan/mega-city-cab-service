@@ -5,6 +5,7 @@ export interface ICustomer extends Document {
   nicNo: string;
   phoneNo: string;
   email: string;
+  password: string;
   address: string;
   createdAt: Date;
 }
@@ -12,8 +13,9 @@ export interface ICustomer extends Document {
 const CustomerSchema = new Schema({
   customerName: { type: String },
   nicNo: { type: String, unique: true },
-  phoneNo: { type: String, unique: true },
+  phoneNo: { type: String },
   email: { type: String, unique: true },
+  password: { type: String },
   address: { type: String },
   createdAt: { type: Date, default: Date.now },
 });

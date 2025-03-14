@@ -18,7 +18,7 @@ const DriverSchema = new Schema({
   email: { type: String, unique: true },
   address: { type: String },
   driverPhoto: { type: String },
-  assignedCars: { type: Schema.Types.ObjectId, ref: "Manager" },
+  assignedCars: [{ type: Schema.Types.ObjectId, ref: "Manager" }],
   createdAt: { type: Date, default: Date.now },
 });
 

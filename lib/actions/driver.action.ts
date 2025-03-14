@@ -9,8 +9,16 @@ export async function createDriverAction(params: TDriverParams) {
   try {
     connectToDatabase();
 
-    const { driverName, nicNo, phoneNo, email, address, driverPhoto, path } =
-      params;
+    const {
+      driverName,
+      nicNo,
+      phoneNo,
+      email,
+      address,
+      driverPhoto,
+      assignedCars,
+      path,
+    } = params;
 
     await Driver.create({
       driverName,
@@ -19,6 +27,7 @@ export async function createDriverAction(params: TDriverParams) {
       email,
       address,
       driverPhoto,
+      assignedCars,
     });
 
     revalidatePath(path);
@@ -52,5 +61,20 @@ export async function getAllDriversAction() {
       status: "500",
       message: "Error fetching driver details",
     };
+  }
+}
+
+export async function getDriverByIdAction(params: { _id: string }) {
+  try {
+    connectToDatabase();
+
+    const { _id } = params;
+
+    const driver = await Driver.findById(_id);
+
+    return driver;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }

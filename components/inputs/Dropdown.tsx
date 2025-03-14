@@ -21,7 +21,7 @@ type TDropdownProps = {
   form: any;
   formLabel?: string;
   inputName: string;
-  options: { _id: string; name: string }[];
+  options: { _id: string; name: string | number }[];
   formDescription?: string;
   prevValue?: string;
   onValueChange?: (_id: string) => {};

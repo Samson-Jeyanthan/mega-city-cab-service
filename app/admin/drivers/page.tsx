@@ -13,6 +13,8 @@ import {
 import { getConvertedDate } from "@/lib/utils";
 import { getAllDriversAction } from "@/lib/actions/driver.action";
 import Image from "next/image";
+import { MdEdit } from "react-icons/md";
+import { DeleteConfirmModal } from "@/components/modals";
 
 const DriversPage = async () => {
   const results = await getAllDriversAction();
@@ -68,14 +70,13 @@ const DriversPage = async () => {
               <TableCell>{data.email}</TableCell>
               <TableCell>{getConvertedDate(data.createdAt)}</TableCell>
               <TableCell className="flex-center gap-3">
-                {/* <LocationModal
-                  type="edit"
-                  locationDetails={JSON.stringify(data)}
-                /> */}
-                {/* <ConfirmDeleteModal
-                        type="district"
-                        itemId={JSON.stringify(data._id)}
-                      /> */}
+                <Link href={`/admin/drivers/edit/${data._id}`}>
+                  <MdEdit className="text-lg" />
+                </Link>
+                <DeleteConfirmModal
+                  type="driver"
+                  itemId={JSON.stringify(data._id)}
+                />
               </TableCell>
             </TableRow>
           ))}
