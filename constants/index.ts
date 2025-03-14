@@ -35,7 +35,21 @@ export const HOURS_OPTIONS = Array.from({ length: 24 }, (_, i) => ({
   name: i + 1,
 }));
 
-export const MINUTES_OPTIONS = Array.from({ length: 60 }, (_, i) => ({
-  _id: (i + 1).toString(),
-  name: i + 1,
-}));
+export const MINUTES_OPTIONS = [
+  {
+    _id: "00",
+    name: "00",
+  },
+  {
+    _id: "15",
+    name: "15",
+  },
+  {
+    _id: "30",
+    name: "30",
+  },
+  {
+    _id: "45",
+    name: "45",
+  },
+];

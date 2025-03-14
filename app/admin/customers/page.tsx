@@ -1,3 +1,4 @@
+import { DeleteConfirmModal } from "@/components/modals";
 import { LocalSearchbar } from "@/components/shared";
 import {
   Table,
@@ -8,10 +9,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getAllCustomersAction } from "@/lib/actions/auth.action";
 import { getConvertedDate } from "@/lib/utils";
+import Link from "next/link";
+import { MdEdit } from "react-icons/md";
 
 const CustomersPage = async () => {
-  // const results = await getAllLocationsAction();
+  const results = await getAllCustomersAction();
 
   return (
     <section className="w-full flex-col flex gap-8">
@@ -38,25 +42,26 @@ const CustomersPage = async () => {
             <TableHead className="text-center w-32">Actions</TableHead>
           </TableRow>
         </TableHeader>
-        {/* <TableBody>
+        <TableBody>
           {results?.data?.map((data, index) => (
             <TableRow key={index} className="hover:bg-light-750">
               <TableCell>{index + 1}</TableCell>
-              <TableCell className="capitalize">{data.name}</TableCell>
+              <TableCell className="capitalize">{data.customerName}</TableCell>
+              <TableCell className="capitalize">{data.phoneNo}</TableCell>
+              <TableCell className="capitalize">{data.email}</TableCell>
               <TableCell>{getConvertedDate(data.createdAt)}</TableCell>
               <TableCell className="flex-center gap-3">
-                <LocationModal
-                  type="edit"
-                  districtDetails={JSON.stringify(data)}
-                /> 
-                 <ConfirmDeleteModal
-                  type="district"
+                <Link href={`/admin/customers/edit/${data._id}`}>
+                  <MdEdit className="text-lg" />
+                </Link>
+                <DeleteConfirmModal
+                  type="customer"
                   itemId={JSON.stringify(data._id)}
-                /> 
+                />
               </TableCell>
             </TableRow>
           ))}
-        </TableBody>  */}
+        </TableBody>
       </Table>
     </section>
   );

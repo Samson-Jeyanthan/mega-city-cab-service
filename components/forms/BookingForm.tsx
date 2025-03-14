@@ -10,6 +10,9 @@ import { Dropdown, FormInput } from "../inputs";
 import { Button } from "../ui/button";
 import { BookingSchema } from "@/lib/validations/admin.validations";
 import { HOURS_OPTIONS, MINUTES_OPTIONS } from "@/constants";
+import { useState } from "react";
+import { getAllDriversAction } from "@/lib/actions/driver.action";
+import { DriverCard } from "../shared";
 
 interface Props {
   locations: string;
@@ -18,6 +21,7 @@ interface Props {
 const BookingForm = ({ locations }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
+  const [data, setData] = useState<any>([]);
 
   const LOCATIONS_OPTIONS =
     locations &&
@@ -38,64 +42,83 @@ const BookingForm = ({ locations }: Props) => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof BookingSchema>) {}
+  async function onSubmit(values: z.infer<typeof BookingSchema>) {
+    console.log(values);
+
+    try {
+      const res = await getAllDriversAction({
+        isClientSide: true,
+      });
+      setData(res.data);
+    } catch {
+      toast.error("Error fetching drivers");
+    }
+  }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 w-full items-center mt-6"
-      >
-        <h2 className="text-center font-bold text-2xl">Search for Cabs</h2>
-        <div className="flex gap-6 max-w-7xl w-full">
-          <Dropdown
-            form={form}
-            inputName="from"
-            formLabel="From"
-            options={LOCATIONS_OPTIONS}
-          />
-          <Dropdown
-            form={form}
-            inputName="to"
-            formLabel="To"
-            options={LOCATIONS_OPTIONS}
-          />
-          <FormInput
-            form={form}
-            inputName="pickupLocation"
-            formLabel="Pickup Location / Address"
-          />
-        </div>
-        <div className="flex gap-6 max-w-7xl w-full items-start">
-          <Dropdown
-            form={form}
-            inputName="hrsTime"
-            formLabel="Pickup Time - Hrs"
-            options={HOURS_OPTIONS}
-          />
-          <Dropdown
-            form={form}
-            inputName="minTime"
-            formLabel="Pickup Time - Min"
-            options={MINUTES_OPTIONS}
-          />
-          <FormInput
-            form={form}
-            inputName="date"
-            formLabel="Date"
-            inputType="date"
-          />
-        </div>
-
-        <Button
-          className="bg-primary-500 text-light-900 w-[36rem] mt-8"
-          type="submit"
-          disabled={form.formState.isSubmitting}
+    <>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-4 w-full items-center mt-6"
         >
-          {form.formState.isSubmitting ? "Loading..." : "Search"}
-        </Button>
-      </form>
-    </Form>
+          <h2 className="text-center font-bold text-2xl">Search for Cabs</h2>
+          <div className="flex gap-6 max-w-7xl w-full">
+            <Dropdown
+              form={form}
+              inputName="from"
+              formLabel="From"
+              options={LOCATIONS_OPTIONS}
+            />
+            <Dropdown
+              form={form}
+              inputName="to"
+              formLabel="To"
+              options={LOCATIONS_OPTIONS}
+            />
+            <FormInput
+              form={form}
+              inputName="pickupLocation"
+              formLabel="Pickup Location / Address"
+            />
+          </div>
+          <div className="flex gap-6 max-w-7xl w-full items-start">
+            <Dropdown
+              form={form}
+              inputName="hrsTime"
+              formLabel="Pickup Time - Hrs"
+              options={HOURS_OPTIONS}
+            />
+            <Dropdown
+              form={form}
+              inputName="minTime"
+              formLabel="Pickup Time - Min"
+              options={MINUTES_OPTIONS}
+            />
+            <FormInput
+              form={form}
+              inputName="date"
+              formLabel="Date"
+              inputType="date"
+            />
+          </div>
+
+          <Button
+            className="bg-primary-500 text-light-900 w-[36rem] mt-8"
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting ? "Loading..." : "Search"}
+          </Button>
+        </form>
+      </Form>
+
+      <div className="flex flex-col gap-8 mt-16">
+        {data?.map((driver: any) => (
+          <DriverCard data={driver} />
+        ))}
+      </div>
+    </>
   );
 };
 

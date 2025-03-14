@@ -45,16 +45,27 @@ export async function createDriverAction(params: TDriverParams) {
   }
 }
 
-export async function getAllDriversAction() {
+export async function getAllDriversAction(params: any) {
   try {
     connectToDatabase();
 
-    const locations = await Driver.find().sort({ createdAt: -1 });
+    const { isClientSide } = params;
 
-    return {
-      status: "200",
-      data: locations,
-    };
+    const drivers = await Driver.find().sort({ createdAt: -1 });
+
+    if (isClientSide) {
+      const stringyFiedDrivers = JSON.stringify(drivers);
+
+      return {
+        status: "200",
+        data: JSON.parse(stringyFiedDrivers),
+      };
+    } else {
+      return {
+        status: "200",
+        data: drivers,
+      };
+    }
   } catch (error) {
     console.log(error);
     return {

@@ -17,7 +17,7 @@ import { deleteLocationAction } from "@/lib/actions/location.action";
 import { deleteDistanceAction } from "@/lib/actions/distance.action";
 
 type Props = {
-  type: "location" | "distance" | "manager" | "driver" | "";
+  type: "location" | "distance" | "manager" | "driver" | "customer";
   itemId: string;
 };
 

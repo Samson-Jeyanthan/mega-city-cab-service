@@ -17,7 +17,7 @@ import { MdEdit } from "react-icons/md";
 import { DeleteConfirmModal } from "@/components/modals";
 
 const DriversPage = async () => {
-  const results = await getAllDriversAction();
+  const results = await getAllDriversAction({});
 
   return (
     <section className="w-full flex-col flex gap-8">
@@ -53,7 +53,7 @@ const DriversPage = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {results?.data?.map((data, index) => (
+          {results?.data?.map((data: any, index: number) => (
             <TableRow key={index} className="hover:bg-light-750">
               <TableCell>{index + 1}</TableCell>
               <TableCell>

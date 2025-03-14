@@ -77,3 +77,22 @@ export async function editCustomerAction(params: TCustomerParams) {
     };
   }
 }
+
+export async function getAllCustomersAction() {
+  try {
+    connectToDatabase();
+
+    const customers = await Customer.find().sort({ createdAt: -1 });
+
+    return {
+      status: "200",
+      data: customers,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      status: "500",
+      message: "Error fetching customer details",
+    };
+  }
+}
